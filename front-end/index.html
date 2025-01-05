@@ -1,14 +1,44 @@
 <!doctype html>
 
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Oppy Marser</title>
-  </head>
-  <body>
-      <h1>Hello World! From Oppy Marser.</h1>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Oppy Marser</title>
+    </head>
+    <body>
+        <header>
+            <h2>Me!</h2>
+            <nav>
+                <a href="#"
+                   hx-get="/api/home"
+                   hx-target="#content"
+                   hx-trigger="click">
+                    Home
+                </a>
+                 <a href="#"
+                   hx-get="/api/blog"
+                   hx-target="#content"
+                   hx-trigger="click">
+                    Blog
+                </a>
+               <a href="#"
+                   hx-get="/api/contact"
+                   hx-target="#content"
+                   hx-trigger="click">
+                    Contact
+                </a>
+
+            </nav>
+        </header>
+        <h1>Hello World! From Oppy Marser.</h1>
+        <div id="content">
+        </div>
+        <footer>
+            <hr />
+            <p>&copy; 2025 Oppy Marser </p>
+        </footer>
+        <script type="module" src="/src/main.js"></script>
+    </body>
 </html>
