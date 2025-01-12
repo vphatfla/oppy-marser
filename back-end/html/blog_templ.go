@@ -29,7 +29,7 @@ func Blog() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"content\"><!-- Blog Header / Intro Section --><section class=\"blog-intro\"><h2>Blog</h2><p>Welcome to my blog! Here you’ll find articles on web development, design tips, and personal insights.</p></section><!-- Blog Posts Section --><section class=\"blog-posts\"><article class=\"blog-post\"><h3>Understanding CSS Grid</h3><p class=\"post-date\">Published on October 1, 2025</p><p>CSS Grid is a powerful layout system available in CSS. In this post, we'll explore the basics of rows, columns, and how to create responsive designs.</p><a href=\"#\" class=\"read-more\">Read More</a></article><article class=\"blog-post\"><h3>Improving Web Performance</h3><p class=\"post-date\">Published on September 15, 2025</p><p>Optimizing your website’s performance is crucial. We’ll dive into image compression, code splitting, caching strategies, and more.</p><a href=\"#\" class=\"read-more\">Read More</a></article><!-- Add as many posts as you want --></section></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div><p>Coming soon!</p></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

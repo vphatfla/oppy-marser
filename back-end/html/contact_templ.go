@@ -29,7 +29,7 @@ func Contact() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"content\"><!-- Contact Intro Section --><section class=\"contact-intro\"><h2>Contact</h2><p>Have a question, want to work together, or just want to say hi? Feel free to reach out using the form below or via email.</p></section><!-- Contact Form Section --><section class=\"contact-form\"><form action=\"#\" method=\"POST\"><div class=\"form-group\"><label for=\"name\">Name</label> <input type=\"text\" id=\"name\" name=\"name\" placeholder=\"Your Name\" required></div><div class=\"form-group\"><label for=\"email\">Email</label> <input type=\"email\" id=\"email\" name=\"email\" placeholder=\"Your Email\" required></div><div class=\"form-group\"><label for=\"message\">Message</label> <textarea id=\"message\" name=\"message\" rows=\"5\" placeholder=\"Your Message\" required></textarea></div><button type=\"submit\">Send Message</button></form></section><!-- Additional Contact Info Section --><section class=\"contact-info\"><h3>Other Ways to Connect</h3><ul><li>Email: <a href=\"mailto:hello@example.com\">hello@example.com</a></li><li>LinkedIn: <a href=\"https://linkedin.com/in/yourprofile\">/in/yourprofile</a></li></ul></section></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div><div class=\"email\"><h4>Talk to me </h4><p>Email me at </p><a href=\"mailto:pvphatedu@gmail.com\">pvphatedu@gmail.com</a></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
