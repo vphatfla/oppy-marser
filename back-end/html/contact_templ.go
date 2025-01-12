@@ -29,7 +29,7 @@ func Contact() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div><div class=\"email\"><h4>Talk to me </h4><p>Email me at </p><a href=\"mailto:pvphatedu@gmail.com\">pvphatedu@gmail.com</a></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div><div class=\"email\"><h4>Talk to me </h4><a href=\"mailto:pvphatedu@gmail.com\">Via Email</a></div><div class=\"linkedin\"><h4>Connect me at </h4><a href=\"https://www.linkedin.com/in/vphatfla/\" target=\"blank\">LinkedIn</a> <a href=\"https://github.com/vphatfla\" target=\"blank\">Github</a></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
