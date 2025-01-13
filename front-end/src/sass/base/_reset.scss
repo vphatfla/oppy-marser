@@ -18,6 +18,10 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
+html, body {
+  height: 100%;
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, main, menu, nav, section {
@@ -29,6 +33,9 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
 	line-height: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 menu, ol, ul {
 	list-style: none;
