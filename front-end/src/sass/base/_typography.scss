@@ -1,17 +1,13 @@
 @use '../abstracts/index' as base;
 
 body {
-  font-family: base.$primary-font;
   line-height: 1.5;
   color: #333;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: base.$headline-font;
-  font-size:  base.$font-size-headline;
-  font-weight: base.$font-weight-bold;
-  line-height: base.$line-height-headline;
   margin-bottom: 0.5em;
+  font-weight: base.$font-weight-regular;
 }
 
 p {
