@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
-	"vphatfla.com/vphatfla/html"
+	"vphatfla.com/vphatfla/components"
 	"vphatfla.com/vphatfla/logger"
 )
 
@@ -21,15 +21,14 @@ func main() {
 
 	// mux.HandleFunc("/blog", handlers.Blog)
 	// mux.HandleFunc("/contact", handlers.Contact)
-
 	// test route for templ
-	h := html.Hello("Oppy")
+	h := components.Hello("Oppy")
 	mux.Handle("/hello", templ.Handler(h))
-	ho := html.Home()
+	ho := components.Home()
 	mux.Handle("/api/home", templ.Handler(ho))
-	bl := html.Blog()
+	bl := components.Blog()
 	mux.Handle("/api/blog", templ.Handler(bl))
-	co := html.Contact()
+	co := components.Contact()
 	mux.Handle("/api/contact", templ.Handler(co))
 
 	log.Fatal(http.ListenAndServe(":8000", nil))
