@@ -7,9 +7,13 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.5em;
-  font-weight: base.$font-weight-regular;
+  font-family: base.$headline-font;
+  font-weight: base.$font-weight-bold;
 }
 
+h2 {
+  font-size: base.$font-size-subhead;
+}
 p {
   font-family: base.$primary-font;
   font-size: base.$font-size-paragraph;
