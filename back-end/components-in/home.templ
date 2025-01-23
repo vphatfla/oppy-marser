@@ -1,6 +1,6 @@
 package components
-
-templ Home() {
+import "vphatfla.com/vphatfla/models"
+templ Home(exps []models.Experience) {
     <div id="page-name" hx-swap-oob="true">
         <h2>Home</h2>
     </div>
@@ -21,12 +21,18 @@ templ Home() {
       <div class="experience">
         <h2>Where I have been to</h2>
         <ul>
-          <li><p> University of Central Florida Electrical Grid System. Architecture and application of AI in Inverted Based Resource devices</p></li>
-          <li><p>Apple Distributed Tracing - Observability Tooling for distributed system</p></li>
-          <li><p>Leido Autonomous Application - Serverless Microsoft document automation application</p></li>
-          <li><p>JP Morgan Chase Enterprise Reporting Data - Batch Ingestion and Provisioning applications</p></li>
+        for _,item := range exps {
+            <li>
+                <p>{item.Company}</p>
+                <ul>
+                    <li>
+                        <p>{item.Description}</p>
+                    </li>
+                </ul>
+            </li>
+        }
         </ul>
-      </div>
+       </div>
 
       <div class="quote">
         <h2>My favorite quote</h2>

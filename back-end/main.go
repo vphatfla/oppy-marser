@@ -7,6 +7,7 @@ import (
 	"github.com/a-h/templ"
 	"vphatfla.com/vphatfla/components"
 	"vphatfla.com/vphatfla/logger"
+	"vphatfla.com/vphatfla/models"
 )
 
 func main() {
@@ -24,7 +25,26 @@ func main() {
 	// test route for templ
 	h := components.Hello("Oppy")
 	mux.Handle("/hello", templ.Handler(h))
-	ho := components.Home()
+
+	exps := []models.Experience{
+		{
+			Company:     "University of Central Florida",
+			Description: "Architecture and application of AI in Inverted Based Resource devices",
+		},
+		{
+			Company:     "Apple",
+			Description: "Distributed Tracing - Observability Tooling for distributed system",
+		},
+		{
+			Company:     "Leidos",
+			Description: "Serverless Microsoft document automation application to reduce operational overhead",
+		},
+		{
+			Company:     "JP Morgan Chase Co",
+			Description: "Reporting Data - Batch Ingestion and Provisioning applications",
+		},
+	}
+	ho := components.Home(exps)
 	mux.Handle("/api/home", templ.Handler(ho))
 	bl := components.Blog()
 	mux.Handle("/api/blog", templ.Handler(bl))

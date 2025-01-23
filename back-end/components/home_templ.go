@@ -8,7 +8,9 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func Home() templ.Component {
+import "vphatfla.com/vphatfla/models"
+
+func Home(exps []models.Experience) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -29,7 +31,43 @@ func Home() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"page-name\" hx-swap-oob=\"true\"><h2>Home</h2></div><div id=\"home-content\"><div class=\"introduction\"><h2>Hi, I'm vphatfla!</h2><p>My username is a combination of my name and the state I immigrated to in the US not long ago. </p></div><div class=\"introduction\"><h2>About me</h2><p>I am a rising senior at the University of Central Florida. I love writing code and learning the fundamental of Computer Science.  I strive for simplicity, reliability, and performance in my code. </p></div><div class=\"experience\"><h2>Where I have been to</h2><ul><li><p>University of Central Florida Electrical Grid System. Architecture and application of AI in Inverted Based Resource devices</p></li><li><p>Apple Distributed Tracing - Observability Tooling for distributed system</p></li><li><p>Leido Autonomous Application - Serverless Microsoft document automation application</p></li><li><p>JP Morgan Chase Enterprise Reporting Data - Batch Ingestion and Provisioning applications</p></li></ul></div><div class=\"quote\"><h2>My favorite quote</h2><p>\"Start with the customer experience, then work back to the technology.\"</p><p>- Steve Job</p></div><div class=\"stack\"><p>This site is build with htmx, sass, go, templ. I enjoy the simplicity of this stack. </p></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"page-name\" hx-swap-oob=\"true\"><h2>Home</h2></div><div id=\"home-content\"><div class=\"introduction\"><h2>Hi, I'm vphatfla!</h2><p>My username is a combination of my name and the state I immigrated to in the US not long ago. </p></div><div class=\"introduction\"><h2>About me</h2><p>I am a rising senior at the University of Central Florida. I love writing code and learning the fundamental of Computer Science.  I strive for simplicity, reliability, and performance in my code. </p></div><div class=\"experience\"><h2>Where I have been to</h2><ul>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, item := range exps {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<li><p>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var2 string
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(item.Company)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `home.templ`, Line: 26, Col: 32}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</p><ul><li><p>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(item.Description)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `home.templ`, Line: 29, Col: 44}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</p></li></ul></li>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</ul></div><div class=\"quote\"><h2>My favorite quote</h2><p>\"Start with the customer experience, then work back to the technology.\"</p><p>- Steve Job</p></div><div class=\"stack\"><p>This site is build with htmx, sass, go, templ. I enjoy the simplicity of this stack. </p></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
