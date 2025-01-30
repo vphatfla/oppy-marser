@@ -8,40 +8,45 @@
         <title>vphatfla</title>
     </head>
     <body>
+        <div class="container">
         <header>
             <div id="web-name">
                 <h1>vphatfla</h1>
             </div>
-            <div id="page-name">
-            </div>
             <nav>
-                <a href="#"
-                   hx-get="/api/home"
-                   hx-target="#content"
-                   hx-trigger="click, load">
-                    Home
-                </a>
-                 <a href="#"
-                   hx-get="/api/blog"
-                   hx-target="#content"
-                   hx-trigger="click">
-                    Blog
-                </a>
-               <a href="#"
-                   hx-get="/api/contact"
-                   hx-target="#content"
-                   hx-trigger="click">
-                    Contact
-                </a>
+                <ul>
+                    <li><a href="#"
+                           hx-get="/api/home"
+                           hx-target="#content"
+                           hx-trigger="click, load">
+                            Home
+                        </a></li>
+                    <li><a href="#"
+                           hx-get="/api/blog"
+                           hx-target="#content"
+                           hx-trigger="click">
+                            Blog
+                    </a></li>
+                    <li><a href="#"
+                           hx-get="/api/contact"
+                           hx-target="#content"
+                           hx-trigger="click">
+                            Contact
+                    </a></li>
+
+                </ul>
             </nav>
         </header>
-        <div class="container" id="content">
+         <div id="page-name">
+         </div>
+        <div id="content">
             <p>Loading ... </p>
         </div>
         <footer>
             <hr />
             <p>Copyright &copy; 2025 vphatfla. All rights reserved.</p>
         </footer>
+        </div>
         <script type="module" src="/src/main.js"></script>
     </body>
 </html>

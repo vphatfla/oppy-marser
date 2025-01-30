@@ -11,8 +11,11 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: base.$font-weight-bold;
 }
 
+h1 {
+  font-size: 2.25em;
+}
 h2 {
-  font-size: base.$font-size-subhead;
+  font-size: 1.5em;
 }
 p {
   font-family: base.$primary-font;
@@ -23,7 +26,8 @@ p {
 a {
   color: #0066cc;
   text-decoration: none;
-
+  font-family: base.$primary-font;
+  font-size: base.$font-size-paragraph;
   &:hover {
     text-decoration: underline;
   }
