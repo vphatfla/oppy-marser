@@ -1,4 +1,6 @@
 .container {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   width: 100%;
   max-width: 1200px;
@@ -11,5 +13,7 @@
     padding: 8px;
   }
 
-
+  #content {
+    height: 100%;
+  }
 }
