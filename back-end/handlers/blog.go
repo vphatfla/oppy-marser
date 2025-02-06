@@ -6,5 +6,5 @@ import (
 )
 
 func Blog(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Contact Request")
+	fmt.Println("BLOG Request")
 }
