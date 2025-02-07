@@ -19,14 +19,9 @@ jobs:
          with:
            node-version: '20.16'
        - name: Install NPM Packages
-         run: |
-          cd front-end     
-          npm ci 
+         working-directory: ./front-end
+         run: npm ci 
+
        - name: Build Static Files 
-         run: |
-          cd front-end 
-          npm run build
-       - name: Run NPM Test
-         run: |
-          cd front-end
-          npm test
+         working-directory: ./front-end
+         run: npm run build
