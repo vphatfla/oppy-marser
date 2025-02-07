@@ -18,12 +18,15 @@ jobs:
          uses: actions/setup-node@v4
          with:
            node-version: '20.16'
-       - run: |
-         cd front-end     
-         npm ci 
-       - run: |
-         cd front-end 
-         npm run build
-       - run: | 
-         cd front-end
-         npm test
+       - name: Install NPM Packages
+         run: |
+          cd front-end     
+          npm ci 
+       - name: Build Static Files 
+         run: |
+          cd front-end 
+          npm run build
+       - name: Run NPM Test
+         run: |
+          cd front-end
+          npm test
