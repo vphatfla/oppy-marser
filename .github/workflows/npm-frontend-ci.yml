@@ -2,9 +2,13 @@ name: Node NPM Frontend CI
 
 on:
   push:
+    paths:
+      - 'front-end'
     branches:
       - main
   pull_request:
+    paths:
+      - 'front-end'
     branches:
       - main
 

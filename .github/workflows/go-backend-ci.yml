@@ -2,9 +2,13 @@ name: GO Backend CI
 
 on:
   push:
+    paths:
+      - 'back-end/**'
     branches:
       - main
   pull_request:
+    paths:
+      - 'back-end/**'
     branches:
       - main
 jobs:
