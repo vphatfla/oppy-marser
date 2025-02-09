@@ -5,6 +5,7 @@ on:
     paths:
       - 'terraform/**'
     branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: read
