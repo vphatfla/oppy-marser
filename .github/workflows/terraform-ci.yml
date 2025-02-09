@@ -8,7 +8,7 @@ on:
 
 permissions:
   contents: read
-  pull_requests: write
+  pull_reqests: write
   id-token: write
 
 jobs:
