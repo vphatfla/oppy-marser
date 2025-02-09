@@ -1,12 +1,12 @@
 resource "aws_s3_bucket" "website" {
-  bucket = "${var.app_name}-${var.environment}-website" 
+  bucket = "${var.app_name}-${var.environment}-website"
 }
 
 resource "aws_s3_bucket_website_configuration" "website" {
   bucket = aws_s3_bucket.website.id
-  
+
   index_document {
-    suffix = "index.html" 
+    suffix = "index.html"
   }
 }
 
