@@ -16,18 +16,8 @@ variable "environment" {
   default     = "prod"
 }
 
-variable "vpc_id" {
-  type = string
-}
-
-variable "private_subnet_ids" {
-  type = list(string)
-}
-
-variable "public_subnet_ids" {
-  type = list(string)
-}
-
-variable "acm_certificate_arn" {
-  type = string
+variable "domain_name" {
+  description = "Domain name of the application"
+  type        = string
+  default     = "vphatfla"
 }

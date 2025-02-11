@@ -1,8 +1,7 @@
 resource "aws_security_group" "alb" {
   name        = "${var.app_name}-alg-sg"
   description = "ALB Security Group"
-  vpc_id      = var.vpc_id
-
+  vpc_id      = module.vpc.vpc_id
   ingress {
     protocol    = "tcp"
     from_port   = 443
@@ -25,7 +24,7 @@ resource "aws_security_group" "alb" {
 resource "aws_security_group" "ecs_tasks" {
   name        = "${var.app_name}-ecs-tasks-sg"
   description = "Allow inbound access from the ALB only"
-  vpc_id      = var.vpc_id
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     protocol        = "tcp"

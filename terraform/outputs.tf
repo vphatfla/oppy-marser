@@ -15,3 +15,18 @@ output "ecr_repository_url" {
 output "alb_dns_name" {
   value = aws_lb.portfolio_app.dns_name
 }
+
+output "nameservers" {
+  description = "Nameservers for the hosted zone"
+  value       = aws_route53_zone.main.name_servers
+}
+
+output "cloudfront_domain" {
+  description = "Cloudfront distribution domain"
+  value       = aws_cloudfront_distribution.s3_distribution.domain_name
+}
+
+output "alb_domain" {
+  description = "ALB domain name"
+  value       = aws_lb.portfolio_app.dns_name
+}

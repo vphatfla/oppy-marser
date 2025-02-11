@@ -42,7 +42,7 @@ resource "aws_ecs_service" "portfolio_app" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets         = var.private_subnet_ids
+    subnets         = module.vpc.private_subnets
     security_groups = [aws_security_group.ecs_tasks.id]
   }
 
