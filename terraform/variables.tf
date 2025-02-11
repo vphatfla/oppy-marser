@@ -19,5 +19,5 @@ variable "environment" {
 variable "domain_name" {
   description = "Domain name of the application"
   type        = string
-  default     = "vphatfla"
+  default     = "vphatfla.me"
 }
