@@ -18,8 +18,8 @@ resource "aws_ecs_task_definition" "portfolio_app" {
       essential = true
       portMappings = [
         {
-          containrPort = 8000
-          portfolio    = "tcp"
+          containerPort = 8000
+          protocol      = "tcp"
         }
       ]
       logConfiguration = {
