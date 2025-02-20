@@ -25,3 +25,7 @@ output "ec2_public_ip" {
 output "ec2_public_dns" {
   value = aws_instance.app.public_dns
 }
+
+output "cloudfront_dns" {
+  value = aws_cloudfront_distribution.main.domain_name
+}
