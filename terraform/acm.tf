@@ -2,10 +2,6 @@ resource "aws_acm_certificate" "portfolio_cert" {
   provider = aws.us-east-1
 
   domain_name = var.domain_name
-  subject_alternative_names = [
-    "www.${var.domain_name}",
-    "*.${var.domain_name}"
-  ]
   validation_method = "DNS"
 
   tags = {
