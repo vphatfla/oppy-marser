@@ -15,3 +15,9 @@ variable "environment" {
   type        = string
   default     = "prod"
 }
+
+variable "domain_name" {
+  description = "Domain of the application"
+  type        = string
+  default     = "vphatfla.me"
+}
