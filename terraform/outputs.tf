@@ -29,3 +29,7 @@ output "ec2_public_dns" {
 output "cloudfront_dns" {
   value = aws_cloudfront_distribution.main.domain_name
 }
+
+output "cert_dns_validation_record" {
+  value = aws_acm_certificate.portfolio_cert.domain_validation_options
+}

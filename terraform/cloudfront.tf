@@ -6,6 +6,9 @@ resource "aws_cloudfront_distribution" "main" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
+  # Alternative domain - CNAME allowed 
+  aliases = [var.domain_name]
+
   origin {
     domain_name = aws_s3_bucket.website.bucket_regional_domain_name
     origin_id   = local.s3_origin_id
@@ -45,6 +48,9 @@ resource "aws_cloudfront_distribution" "main" {
   price_class = "PriceClass_100"
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn            = aws_acm_certificate.portfolio_cert.arn
+    cloudfront_default_certificate = false
+    minimum_protocol_version       = "TLSv1.2_2021"
+    ssl_support_method             = "sni-only"
   }
 }
