@@ -32,14 +32,16 @@ jobs:
           aws ssm send-command \
             --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
-            --parameters 'commands=[
-              "cd /path/to/your/app",
-              "git pull origin main",
-              "go mod tidy",
-              "pkill app || true",     # Kill existing process, ignore if not found
-              "go build -o app",
-              "nohup ./app > app.log 2>&1 &",  # Run in background, redirect output
-            ]' \
+            --parameters '{
+         "commands": [
+          "cd /path/to/your/app",
+          "git pull origin main",
+          "go mod tidy",
+          "pkill app || true",
+          "go build -o app",
+          "nohup ./app > app.log 2>&1 &"
+        ]
+      }' \
             --output text
 
       - name: Check Command Status
