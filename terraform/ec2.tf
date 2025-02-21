@@ -9,6 +9,8 @@ resource "aws_instance" "app" {
 
   associate_public_ip_address = true
 
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+
   tags = {
     Name = "${var.app_name}-ec2"
   }
