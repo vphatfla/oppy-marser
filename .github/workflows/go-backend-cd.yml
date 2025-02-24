@@ -3,7 +3,7 @@ name: Backend CD - Deploy to EC2
 on:
   push:
     paths:
-      - 'backend/**'
+      - 'back-end/**'
     branches: [ main ]
   workflow_dispatch:
 
@@ -32,5 +32,5 @@ jobs:
           aws ssm send-command \
             --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
-            --parameters '{"commands":["cd oppy-marser","git pull origin main", "cd back-end", "go mod tidy","sudo systemctl restart go-app"]}' \
+            --parameters '{"commands":["cd oppy-marser","git pull origin main", "cd back-end", "docker-compose down", "docker-compose up --build -d || exit 1"]}' \
             --output text
