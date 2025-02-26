@@ -14,9 +14,9 @@ import (
 
 func main() {
 
-	err := blogs.Render()
+	err := blogs.Render("blogs/md", "blogs/html")
 	if err != nil {
-		fmt.Printf("Error rendering html %q", err)
+		fmt.Printf("Error rendering html %s", err.Error())
 		panic(1)
 	}
 	mux := http.NewServeMux()
@@ -57,7 +57,6 @@ func main() {
 	co := components.Contact()
 	mux.Handle("/api/contact", templ.Handler(co))
 
-	log.Fatal(http.ListenAndServe(":8000", nil))
-
 	log.Println("Backend Server Started, listening on port 8000!")
+	log.Fatal(http.ListenAndServe(":8000", nil))
 }

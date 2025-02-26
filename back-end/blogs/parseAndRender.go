@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 
@@ -21,7 +22,6 @@ type BlogArticle struct {
 func readMdInput(inDir string) ([]BlogArticle, error) {
 	var res []BlogArticle
 
-	
 	err := filepath.Walk(inDir, func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -40,7 +40,7 @@ func readMdInput(inDir string) ([]BlogArticle, error) {
 			}
 			
 			b := BlogArticle{
-				Name: info.Name(),
+				Name: info.Name()[:len(info.Name())-3],
 				MdContent: content,
 				HtmlContent: nil,
 			}
@@ -71,17 +71,29 @@ func writeHtmlOutput(outDir string, articles []BlogArticle) error {
 	}
 	
 	for _, a := range articles {
-		// path := filepath.Join(outDir, a.Name)
-		fmt.Println("current name = ", a.Name)
+		newName := a.Name + ".html"
+		
+		p := path.Join(outDir, newName)
+		f, err := os.Create(p)
+		if err != nil {
+			return fmt.Errorf("Error creating file %s -> %s", p, err.Error())
+		}
+		
+		n, err := f.Write(a.HtmlContent)
+		if err != nil {
+			return fmt.Errorf("Error writing to file %s -> %s ", p, err.Error())
+		}
+		fmt.Printf("Write %d byte to %s \n", n, p) 
+		defer f.Close()
 	}
 	return nil
 }
 // Render HTML content from markdown (.md) files
-func Render() error {
-	articles, err := readMdInput("./md")
+func Render(inDir string, outDir string) error {
+	articles, err := readMdInput(inDir)
 	
 	if err != nil {
-		return fmt.Errorf("Error reading .md files %q \n", err)
+		return fmt.Errorf("Error reading .md files ->  %s \n", err.Error())
 	}
 
 	p := parser.New()
@@ -90,12 +102,14 @@ func Render() error {
 	opts := html.RendererOptions{Flags: flags}
 	r := html.NewRenderer(opts)
 
-	for _, a := range articles {
-		doc := p.Parse(a.MdContent)
-		a.HtmlContent = markdown.Render(doc, r)	
+	for i := range articles {
+		// for loops e is only a copy of ar[i]
+		// fmt.Printf("%p vs %p", &articles[i], &a)
+		doc := p.Parse(articles[i].MdContent)
+		articles[i].HtmlContent = markdown.Render(doc, r)
 	}
 	
-	err = writeHtmlOutput("./html", articles)
+	err = writeHtmlOutput(outDir, articles)
 	
 	if err != nil {
 		return fmt.Errorf("Error writing .html files %q \n", err)
