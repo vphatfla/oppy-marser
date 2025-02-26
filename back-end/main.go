@@ -13,12 +13,14 @@ import (
 )
 
 func main() {
-
-	err := blogs.Render("blogs/md", "blogs/html")
+	// Blog articles rendering 
+	articles, err := blogs.Render("blogs/md", "blogs/html")
 	if err != nil {
 		fmt.Printf("Error rendering html %s", err.Error())
 		panic(1)
 	}
+
+
 	mux := http.NewServeMux()
 
 	http.Handle("/404", http.NotFoundHandler())

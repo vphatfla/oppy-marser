@@ -89,11 +89,11 @@ func writeHtmlOutput(outDir string, articles []BlogArticle) error {
 	return nil
 }
 // Render HTML content from markdown (.md) files
-func Render(inDir string, outDir string) error {
+func RenderAndReturnArticles(inDir string, outDir string) ([]BlogArticle, error) {
 	articles, err := readMdInput(inDir)
 	
 	if err != nil {
-		return fmt.Errorf("Error reading .md files ->  %s \n", err.Error())
+		return nil, fmt.Errorf("Error reading .md files ->  %s \n", err.Error())
 	}
 
 	p := parser.New()
@@ -112,7 +112,7 @@ func Render(inDir string, outDir string) error {
 	err = writeHtmlOutput(outDir, articles)
 	
 	if err != nil {
-		return fmt.Errorf("Error writing .html files %q \n", err)
+		return nil, fmt.Errorf("Error writing .html files %q \n", err)
 	}
-	return nil
+	return articles, nil
 }
