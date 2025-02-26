@@ -1,18 +1,24 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/a-h/templ"
+	"vphatfla.com/vphatfla/blogs"
 	"vphatfla.com/vphatfla/components"
 	"vphatfla.com/vphatfla/logger"
 	"vphatfla.com/vphatfla/models"
 )
 
 func main() {
-	log.Println("Backend Server Started, listening on port 8000!")
 
+	err := blogs.Render()
+	if err != nil {
+		fmt.Printf("Error rendering html %q", err)
+		panic(1)
+	}
 	mux := http.NewServeMux()
 
 	http.Handle("/404", http.NotFoundHandler())
@@ -52,4 +58,6 @@ func main() {
 	mux.Handle("/api/contact", templ.Handler(co))
 
 	log.Fatal(http.ListenAndServe(":8000", nil))
+
+	log.Println("Backend Server Started, listening on port 8000!")
 }
