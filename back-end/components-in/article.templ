@@ -1,0 +1,11 @@
+package components
+
+import "vphatfla.com/vphatfla/blogs"
+
+templ Article(article blogs.BlogArticle) {
+   <div id="page-name" hx-swap-oob="true">
+    </div>
+    <div>
+        @templ.Raw(string(article.HtmlContent))
+    </div>
+}

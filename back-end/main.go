@@ -1,17 +1,25 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/a-h/templ"
+	"vphatfla.com/vphatfla/blogs"
 	"vphatfla.com/vphatfla/components"
 	"vphatfla.com/vphatfla/logger"
 	"vphatfla.com/vphatfla/models"
 )
 
 func main() {
-	log.Println("Backend Server Started, listening on port 8000!")
+	// Blog articles rendering 
+	articles, err := blogs.RenderAndReturnArticles("blogs/md", "blogs/html")
+	if err != nil {
+		fmt.Printf("Error rendering html %s", err.Error())
+		panic(1)
+	}
+
 
 	mux := http.NewServeMux()
 
@@ -46,10 +54,17 @@ func main() {
 	}
 	ho := components.Home(exps)
 	mux.Handle("/api/home", templ.Handler(ho))
-	bl := components.Blog()
+	bl := components.Blog(articles)
 	mux.Handle("/api/blog", templ.Handler(bl))
 	co := components.Contact()
 	mux.Handle("/api/contact", templ.Handler(co))
+	
+	// articles route
+	for _, a := range articles {
+		aTempl := components.Article(a)
+		mux.Handle("/api/article/"+a.Name, templ.Handler(aTempl))
+	}
 
+	log.Println("Backend Server Started, listening on port 8000!")
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
