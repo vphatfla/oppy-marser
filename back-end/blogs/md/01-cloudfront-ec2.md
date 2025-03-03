@@ -1,6 +1,6 @@
-# Point Cloudfront distribution to EC2 public DNS
+# Point Cloudfront distribution to an EC2 instance using its  public DNS
 
-### Purpose
+## Purpose
 
 Minimize the cost of running services on AWS by eliminating the use of elastic IPv4, load balancer, NAT, ...
 
@@ -8,7 +8,7 @@ Every user has 750 hours free of charge when using *public ipv4* (not elastic), 
 
 This is a trick to reduce cost, not a standard/recommended way to host important, secured applications.
 
-### Terraform
+## Terraform
 
     # cloudfront.tf
     

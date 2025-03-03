@@ -15,6 +15,7 @@ import (
 
 type BlogArticle struct {
 	Name string
+	DisplayName string
 	MdContent []byte
 	HtmlContent []byte
 }
@@ -38,9 +39,9 @@ func readMdInput(inDir string) ([]BlogArticle, error) {
 				return err
 
 			}
-			
 			b := BlogArticle{
 				Name: info.Name()[:len(info.Name())-3],
+				DisplayName: getDisplayName(content),
 				MdContent: content,
 				HtmlContent: nil,
 			}
@@ -87,6 +88,18 @@ func writeHtmlOutput(outDir string, articles []BlogArticle) error {
 		defer f.Close()
 	}
 	return nil
+}
+
+// Get the display name of the article - the first string on the first line
+
+func getDisplayName(content []byte) string {
+	str := string(content)
+
+	temp := strings.Split(str, "\n")
+
+	firstLine := temp[0]
+	
+	return firstLine[2:]
 }
 // Render HTML content from markdown (.md) files
 func RenderAndReturnArticles(inDir string, outDir string) ([]BlogArticle, error) {

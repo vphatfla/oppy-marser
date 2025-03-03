@@ -4,14 +4,14 @@ import "vphatfla.com/vphatfla/blogs"
 templ Blog(articles []blogs.BlogArticle) {
     <div id="page-name" hx-swap-oob="true">
         <h2>Blog</h2>
-        <div class="article-list">
-            <ul>
+    </div>
+    <div class="article-list">
+        <ul>
             for _, item := range articles {
                 <li>
-                    <a href="#" hx-get={"/api/article/" + item.Name} hx-target="article-content">{item.Name}</a>
-                </li>    
+                    <a href="#" hx-get={"/api/article/" + item.Name} hx-target="#content" hx-trigger="click">{item.DisplayName}</a>
+                    </li>    
             }
-            </ul>
-        </div>
+        </ul>
     </div>
 }

@@ -58,6 +58,12 @@ func main() {
 	mux.Handle("/api/blog", templ.Handler(bl))
 	co := components.Contact()
 	mux.Handle("/api/contact", templ.Handler(co))
+	
+	// articles route
+	for _, a := range articles {
+		aTempl := components.Article(a)
+		mux.Handle("/api/article/"+a.Name, templ.Handler(aTempl))
+	}
 
 	log.Println("Backend Server Started, listening on port 8000!")
 	log.Fatal(http.ListenAndServe(":8000", nil))
