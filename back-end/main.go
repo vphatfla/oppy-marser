@@ -13,7 +13,6 @@ import (
 )
 
 func main() {
-	// Blog articles rendering 
 	articles, err := blogs.RenderAndReturnArticles("blogs/md", "blogs/html")
 	if err != nil {
 		fmt.Printf("Error rendering html %s", err.Error())
@@ -58,7 +57,7 @@ func main() {
 	mux.Handle("/api/blog", templ.Handler(bl))
 	co := components.Contact()
 	mux.Handle("/api/contact", templ.Handler(co))
-	
+
 	// articles route
 	for _, a := range articles {
 		aTempl := components.Article(a)
