@@ -28,7 +28,6 @@ func main() {
 	h := components.Hello("Oppy")
 	r.Handle("/hello", templ.Handler(h))
 
-
 	exps := []models.Experience{
 		{
 			Company:     "University of Central Florida",
