@@ -14,11 +14,12 @@ import (
 )
 
 type BlogArticle struct {
-	Name string
+	Name        string
 	DisplayName string
-	MdContent []byte
+	MdContent   []byte
 	HtmlContent []byte
 }
+
 // Read []byte from .md file in the given folder
 func readMdInput(inDir string) ([]BlogArticle, error) {
 	var res []BlogArticle
@@ -34,15 +35,15 @@ func readMdInput(inDir string) ([]BlogArticle, error) {
 
 		if strings.ToLower(filepath.Ext(path)) == ".md" {
 			content, err := os.ReadFile(path)
-			
+
 			if err != nil {
 				return err
 
 			}
 			b := BlogArticle{
-				Name: info.Name()[:len(info.Name())-3],
+				Name:        info.Name()[:len(info.Name())-3],
 				DisplayName: getDisplayName(content),
-				MdContent: content,
+				MdContent:   content,
 				HtmlContent: nil,
 			}
 			res = append(res, b)
@@ -70,21 +71,21 @@ func writeHtmlOutput(outDir string, articles []BlogArticle) error {
 			return fmt.Errorf("Error removing file %s with error %q", path, err)
 		}
 	}
-	
+
 	for _, a := range articles {
 		newName := a.Name + ".html"
-		
+
 		p := path.Join(outDir, newName)
 		f, err := os.Create(p)
 		if err != nil {
 			return fmt.Errorf("Error creating file %s -> %s", p, err.Error())
 		}
-		
+
 		n, err := f.Write(a.HtmlContent)
 		if err != nil {
 			return fmt.Errorf("Error writing to file %s -> %s ", p, err.Error())
 		}
-		fmt.Printf("Write %d byte to %s \n", n, p) 
+		fmt.Printf("Write %d byte to %s \n", n, p)
 		defer f.Close()
 	}
 	return nil
@@ -98,13 +99,14 @@ func getDisplayName(content []byte) string {
 	temp := strings.Split(str, "\n")
 
 	firstLine := temp[0]
-	
+
 	return firstLine[2:]
 }
+
 // Render HTML content from markdown (.md) files
 func RenderAndReturnArticles(inDir string, outDir string) ([]BlogArticle, error) {
 	articles, err := readMdInput(inDir)
-	
+
 	if err != nil {
 		return nil, fmt.Errorf("Error reading .md files ->  %s \n", err.Error())
 	}
@@ -121,9 +123,9 @@ func RenderAndReturnArticles(inDir string, outDir string) ([]BlogArticle, error)
 		doc := p.Parse(articles[i].MdContent)
 		articles[i].HtmlContent = markdown.Render(doc, r)
 	}
-	
+
 	err = writeHtmlOutput(outDir, articles)
-	
+
 	if err != nil {
 		return nil, fmt.Errorf("Error writing .html files %q \n", err)
 	}
