@@ -6,32 +6,28 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
+	"github.com/go-chi/chi/v5"
 	"vphatfla.com/vphatfla/blogs"
 	"vphatfla.com/vphatfla/components"
-	"vphatfla.com/vphatfla/logger"
+	"vphatfla.com/vphatfla/internal/middleware"
 	"vphatfla.com/vphatfla/models"
 )
 
 func main() {
+	r := chi.NewRouter()
+
+	// Middlware
+	r.Use(middleware.Logger)
+
 	articles, err := blogs.RenderAndReturnArticles("blogs/md", "blogs/html")
 	if err != nil {
 		fmt.Printf("Error rendering html %s", err.Error())
 		panic(1)
 	}
 
-
-	mux := http.NewServeMux()
-
-	http.Handle("/404", http.NotFoundHandler())
-
-	// middleware logger request, logger intercept the incoming req to the mux
-	http.Handle("/", logger.Logger(mux))
-
-	// mux.HandleFunc("/blog", handlers.Blog)
-	// mux.HandleFunc("/contact", handlers.Contact)
-	// test route for templ
 	h := components.Hello("Oppy")
-	mux.Handle("/hello", templ.Handler(h))
+	r.Handle("/hello", templ.Handler(h))
+
 
 	exps := []models.Experience{
 		{
@@ -52,18 +48,20 @@ func main() {
 		},
 	}
 	ho := components.Home(exps)
-	mux.Handle("/api/home", templ.Handler(ho))
 	bl := components.Blog(articles)
-	mux.Handle("/api/blog", templ.Handler(bl))
 	co := components.Contact()
-	mux.Handle("/api/contact", templ.Handler(co))
 
-	// articles route
-	for _, a := range articles {
-		aTempl := components.Article(a)
-		mux.Handle("/api/article/"+a.Name, templ.Handler(aTempl))
-	}
+	r.Route("/api", func(r chi.Router) {
+		r.Handle("/home", templ.Handler(ho))
+		r.Handle("/blog", templ.Handler(bl))
+		r.Handle("/contact", templ.Handler(co))
+		// articles route
+		for _, a := range articles {
+			aTempl := components.Article(a)
+			r.Handle("/api/article/"+a.Name, templ.Handler(aTempl))
+		}
+	})
 
 	log.Println("Backend Server Started, listening on port 8000!")
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Fatal(http.ListenAndServe(":8000", r))
 }
