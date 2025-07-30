@@ -8,7 +8,7 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write 
+  pull-requests: write
   id-token: write
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -29,7 +29,7 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-      
+
       - name: Terraform Format
         id: fmt
         working-directory: ./terraform
