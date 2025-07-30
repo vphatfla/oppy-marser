@@ -6,6 +6,10 @@ on:
         description: 'Type "destroy" to confirm'
         required: true
 
+permissions:
+  contents: write
+  id-token: write
+
 jobs:
   destroy:
     name: Terraform Destroy
