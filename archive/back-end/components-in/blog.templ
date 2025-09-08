@@ -1,0 +1,17 @@
+package components
+import "vphatfla.com/vphatfla/blogs"
+
+templ Blog(articles []blogs.BlogArticle) {
+    <div id="page-name" hx-swap-oob="true">
+        <h2>Blog</h2>
+    </div>
+    <div class="article-list">
+        <ul>
+            for _, item := range articles {
+                <li>
+                    <a href="#" hx-get={"/api/article/" + item.Name} hx-target="#content" hx-trigger="click">{item.DisplayName}</a>
+                    </li>    
+            }
+        </ul>
+    </div>
+}

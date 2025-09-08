@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0.5rem auto;
+  margin-bottom: 0 !important;
+  @media (max-width: 768px){
+    padding: 12px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+  }
+
+  #content {
+    height: 100%;
+  }
+}

@@ -1,0 +1,35 @@
+@use '../abstracts/index' as base;
+
+body {
+  line-height: 1.5;
+  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0.5em;
+  font-family: base.$headline-font;
+  font-weight: base.$font-weight-bold;
+}
+
+h1 {
+  font-size: 2.25em;
+}
+h2 {
+  font-size: 1.5em;
+}
+p {
+  font-family: base.$primary-font;
+  font-size: base.$font-size-paragraph;
+  margin-bottom: 1em;
+}
+
+a {
+  color: #0066cc;
+  text-decoration: none;
+  font-family: base.$primary-font;
+  font-size: base.$font-size-paragraph;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+

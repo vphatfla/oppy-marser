@@ -1,0 +1,15 @@
+ul {
+  list-style-type: disc;
+  margin-left: 2em;
+  padding: 0;
+
+  li {
+    margin-bottom: 8px;
+    padding-left: 10px;
+    ul {
+      list-style-type: circle;
+      margin-left: 2em;
+      padding: 0;
+    }
+  }
+}

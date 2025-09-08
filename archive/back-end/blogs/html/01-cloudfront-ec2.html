@@ -1,0 +1,50 @@
+<h1>Point Cloudfront distribution to an EC2 instance using its  public DNS</h1>
+
+<h2>Purpose</h2>
+
+<p>Minimize the cost of running services on AWS by eliminating the use of elastic IPv4, load balancer, NAT, ...</p>
+
+<p>Every user has 750 hours free of charge when using <em>public ipv4</em> (not elastic), hence, this method might reduce the cost of app hosting when there is no need for Load Balancer and/or NAT.</p>
+
+<p>This is a trick to reduce cost, not a standard/recommended way to host important, secured applications.</p>
+
+<h2>Terraform</h2>
+
+<pre><code># cloudfront.tf
+
+locals {
+    s3_origin_id  = &quot;S3-${aws_s3_bucket.website.bucket}&quot;
+    ec2_origin_id = &quot;EC2-${aws_instance.app.id}&quot;
+}
+
+resource &quot;aws_cloudfront_distribution&quot; &quot;main&quot; {
+
+    ...
+
+    origin {
+        domain_name = aws_instance.app.public_dns
+        origin_id   = local.ec2_origin_id
+
+        custom_origin_config {
+          http_port              = 80
+          https_port             = 443
+          origin_protocol_policy = &quot;http-only&quot;
+          origin_ssl_protocols   = [&quot;TLSv1.2&quot;]
+        }
+    }
+
+    ordered_cache_behavior {
+        path_pattern     = &quot;/api/*&quot;
+        allowed_methods  = [&quot;GET&quot;, &quot;HEAD&quot;]
+        cached_methods   = [&quot;GET&quot;, &quot;HEAD&quot;]
+        target_origin_id = local.ec2_origin_id
+
+        cache_policy_id = &quot;4135ea2d-6df8-44a3-9df3-4b5a84be39ad&quot;
+
+        viewer_protocol_policy   = &quot;redirect-to-https&quot;
+        origin_request_policy_id = &quot;b689b0a8-53d0-40ab-baf2-68738e2966ac&quot;
+
+    }
+
+}    
+</code></pre>

@@ -1,0 +1,47 @@
+package components
+import "vphatfla.com/vphatfla/models"
+templ Home(exps []models.Experience) {
+    <div id="page-name" hx-swap-oob="true">
+        <h2>Home</h2>
+    </div>
+    <div id="home-content">
+      <div  class="introduction">
+        <h2>Hi, I'm vphatfla!</h2>
+        <p>
+        My username is a combination of my name and the state I immigrated to in the US not long ago. 
+        </p>
+      </div>
+
+      <div class="introduction">
+        <h2>About me</h2>
+        <p>I am a rising senior at the University of Central Florida. I love writing code and learning the fundamental of Computer Science. 
+        I strive for simplicity, reliability, and performance in my code. </p>
+      </div>
+
+      <div class="experience">
+        <h2>Where I have been to</h2>
+        <ul>
+        for _,item := range exps {
+            <li>
+                <p>{item.Company}</p>
+                <ul>
+                    <li>
+                        <p>{item.Description}</p>
+                    </li>
+                </ul>
+            </li>
+        }
+        </ul>
+       </div>
+
+      <div class="quote">
+        <h2>My favorite quote</h2>
+        <p>"Start with the customer experience, then work back to the technology."</p>
+        <p> - Steve Job</p>
+      </div>
+
+      <div class="stack">
+        <p>This site is build with htmx, sass, go, templ. I enjoy the simplicity of this stack. </p>
+      </div>
+    </div>
+}
