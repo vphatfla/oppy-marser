@@ -1,0 +1,14 @@
+// Footer styles
+.app-footer {
+  height: $footer-height;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  @include flex-center;
+
+  .footer-content {
+    @include container;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+  }
+}

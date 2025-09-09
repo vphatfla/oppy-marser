@@ -1,0 +1,46 @@
+// Header styles
+.app-header {
+  height: $header-height;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  .header-container {
+    @include container;
+    @include flex-between;
+    height: 100%;
+  }
+
+  .site-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: $spacing-md;
+
+    @include respond-to(sm) {
+      gap: $spacing-lg;
+    }
+  }
+
+  .nav-link {
+    color: var(--color-text);
+    font-weight: 500;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-hover);
+    }
+
+    &.router-link-active {
+      background-color: var(--color-hover);
+    }
+  }
+}

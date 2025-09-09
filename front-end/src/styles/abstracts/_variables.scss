@@ -1,0 +1,34 @@
+// Global Variables
+
+// Colors
+:root {
+  --color-primary: #000000;
+  --color-background: #ffffff;
+  --color-text: #000000;
+  --color-text-secondary: #666666;
+  --color-border: #e5e5e5;
+  --color-hover: #f5f5f5;
+}
+
+// Typography
+$font-family-primary: -apple-system, "SF Pro Display", "Gill Sans", sans-serif;
+$font-size-base: 16px;
+$line-height-base: 1.6;
+
+// Spacing
+$spacing-xs: 0.5rem;
+$spacing-sm: 1rem;
+$spacing-md: 2rem;
+$spacing-lg: 3rem;
+$spacing-xl: 4rem;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Layout
+$max-width-container: 1200px;
+$header-height: 80px;
+$footer-height: 60px;
