@@ -12,7 +12,9 @@ Technology stack for the static blog application frontend, designed for optimal 
 - **Vue.js 3** - Progressive JavaScript framework for building user interfaces with composition API and reactive data binding
 
 ### Content Format
-- **Markdown** - Content authored in Markdown format with frontmatter metadata, processed via markdown-it for HTML conversion
+- **Markdown** - Content authored in Markdown format with frontmatter metadata
+- **markdown-it** - Robust markdown to HTML conversion with plugin ecosystem for syntax highlighting and anchor generation
+- **gray-matter** - Professional frontmatter parsing supporting YAML, TOML, and JSON metadata formats
 
 ### Styling
 - **SASS** - CSS preprocessor for enhanced styling capabilities with variables, mixins, and nested rules

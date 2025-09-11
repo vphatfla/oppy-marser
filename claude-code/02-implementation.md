@@ -158,16 +158,22 @@ Build Process:
 ```
 
 ### Content Structure
-All page content is authored in Markdown format and stored in the `src/md/` directory:
+All page content is authored in Markdown format and stored in the `docs/` directory:
 
 ```
-src/md/
+docs/
 ├── home.md              # Homepage content
 ├── contact.md           # Contact page content  
 ├── blog/               # Blog posts directory
 │   └── *.md           # Individual blog posts
 └── work/              # Work portfolio directory  
     └── *.md           # Individual work items
+```
+
+**Build Artifacts:**
+```
+src/components/generated/    # Auto-generated Vue components
+src/generated-routes.js      # Auto-generated route definitions
 ```
 
 ### Frontmatter Support
@@ -195,26 +201,39 @@ slug: "project-name"
 ---
 ```
 
-### Static Generation Implementation Options
+### Static Generation Implementation Approach
 
-#### Option 1: VitePress (Recommended)
-- Purpose-built Vue.js static site generator
-- Built-in markdown processing and optimization
-- Automatic routing from file structure
-- SEO-friendly with pre-rendered HTML
-- Minimal migration from existing Vue components
+#### Selected Implementation: markdown-it + gray-matter + Vue Components
+**Final Decision**: Build-time conversion of Markdown files to Vue components with embedded HTML
 
-#### Option 2: Custom Vite Plugin
-- Create build-time markdown processing plugin
-- Generate static HTML during `vite build`
-- Maintain current Vue component structure
-- Custom implementation for specific requirements
+**Technical Stack:**
+- **markdown-it**: Robust markdown parser with plugin ecosystem
+- **gray-matter**: Professional frontmatter parsing
+- **Vue 3**: Component framework for layout and interactivity
+- **Vite**: Build system with optimized static generation
 
-#### Option 3: Astro with Vue Integration
-- Multi-framework static site generator
-- Excellent performance with partial hydration
-- Vue components for interactive elements
-- Built-in content collections for markdown
+**Process Overview:**
+1. **Build Script**: Node.js script processes all markdown files
+2. **Content Discovery**: Glob pattern matching finds all `docs/*.md` files
+3. **Frontmatter Parsing**: gray-matter extracts YAML/TOML/JSON metadata
+4. **HTML Generation**: markdown-it converts content with syntax highlighting
+5. **Component Creation**: Generate Vue components with embedded HTML
+6. **Route Generation**: Automatic routing based on file structure
+7. **Static Build**: Vite bundles everything into static HTML files
+
+**Why This Approach:**
+- ✅ True static generation (no runtime dependencies)
+- ✅ Maintains Vue.js development experience
+- ✅ Professional-grade markdown processing
+- ✅ Flexible frontmatter metadata support
+- ✅ Plugin ecosystem for extensibility
+- ✅ SEO optimization with meta tag generation
+- ✅ Compatible with existing SASS + Bootstrap styling
+
+**Alternative Options Considered:**
+- **VitePress**: Too opinionated, locks into specific patterns
+- **Custom Vite Plugin**: Overly complex for requirements
+- **Astro**: Additional framework complexity not needed
 
 ### Build Output Structure
 The static generation process must produce:
@@ -238,13 +257,15 @@ dist/
 ```
 
 ### Content Processing Workflow
-1. **Build Trigger**: Run `npm run build` command
-2. **Content Discovery**: Scan `src/md/` for all markdown files
-3. **Metadata Extraction**: Parse frontmatter from each file
-4. **HTML Generation**: Convert markdown to optimized HTML
-5. **Page Creation**: Generate complete HTML pages with navigation
-6. **Asset Optimization**: Bundle and optimize CSS/JS/images
-7. **Static Output**: Produce deployment-ready static files
+1. **Build Trigger**: Run `npm run build-docs && npm run build` command
+2. **Content Discovery**: Scan `docs/` for all markdown files using glob patterns
+3. **Metadata Extraction**: Parse frontmatter with gray-matter (YAML/TOML/JSON)
+4. **HTML Generation**: Convert markdown to optimized HTML with markdown-it
+5. **Component Generation**: Create Vue components with embedded HTML content
+6. **Route Generation**: Auto-generate route definitions from file structure
+7. **Static Build**: Vite bundles Vue components into static HTML files
+8. **Asset Optimization**: Bundle and optimize CSS/JS/images
+9. **Static Output**: Produce deployment-ready static files in `dist/`
 
 ### Performance Benefits
 - **Zero Client-side Processing**: All content pre-rendered as HTML
