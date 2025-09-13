@@ -1,0 +1,213 @@
+import MarkdownIt from "markdown-it";
+import matter from "gray-matter";
+import hljs from "highlight.js";
+import * as fs from "node:fs";
+import { promisify } from "node:util";
+import path from "node:path";
+
+
+const INPUT_MD_DIR = '../docs';
+const OUTPUT_HTML_DIR = '../src/components/generated';
+const OUTPUT_ROUTE_JS = '../src/generated-routes.js';
+
+const md = new MarkdownIt({
+    html: true,
+    xhtmlOut: true,
+    breaks: false,
+    langPrefix: 'language-',
+    linkify: true,
+    typographer: true,
+
+    highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+                return hljs.highlight(str, {language: lang}).value;
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        return '';
+    }
+});
+
+const generateVueComponent = (html, data) => {
+    return `<template>
+  <div class="doc-content">
+    <AppHeader :site-title="'My Blog'" />
+    <main class="container">
+      <article class="markdown-content" v-html="htmlContent"></article>
+    </main>
+    <AppFooter :author-name="'Developer'" />
+  </div>
+</template>
+
+<script setup>
+import { computed } from 'vue'
+import AppHeader from '../AppHeader.vue'
+import AppFooter from '../AppFooter.vue'
+
+const htmlContent = computed(() => ${JSON.stringify(html)})
+const metadata = ${JSON.stringify(data)}
+
+</script>`
+}
+
+if (fs.existsSync(OUTPUT_HTML_DIR)) {
+    fs.rmSync(OUTPUT_HTML_DIR, { recursive: true, force: true })
+}
+
+const mkdirRes = fs.mkdirSync(OUTPUT_HTML_DIR, {recursive: true});
+
+if (!mkdirRes) {
+    throw new Error("ERROR mkdir ", OUTPUT_HTML_DIR, " --> ", mkdirRes)
+}
+
+if (!fs.existsSync(INPUT_MD_DIR)) {
+    throw new Error("ERROR dir, input not found " + INPUT_MD_DIR)
+}
+
+const asyncGlob = promisify(fs.glob);
+
+var mdFiles = await asyncGlob(`${INPUT_MD_DIR}/**/*.md`);
+
+console.log('Input md files = ',mdFiles);
+
+const routes = [];
+
+for (const filePath of mdFiles) {
+    const mdContent = fs.readFileSync(filePath, {encoding: 'utf8'});
+    const { data, content } =  matter(mdContent);
+    const html = md.render(content);
+    const vueComponent = generateVueComponent(html, data);
+
+    const componentName = path.basename(filePath, '.md');
+    const routePath = path.relative(INPUT_MD_DIR, filePath).replace('.md', '');
+    const outFilePath = path.join(OUTPUT_HTML_DIR, routePath) + '.vue';
+
+    fs.mkdirSync(path.dirname(outFilePath), { recursive: true} )
+    fs.writeFileSync(
+        outFilePath,
+        vueComponent
+    )
+
+    routes.push({
+        path: '/' + routePath,
+        componentName: componentName,
+        metadata: data
+    })
+
+    console.log("Successfully generated vue component at ", outFilePath);
+}
+
+// Collect blog posts for blog index
+const blogPosts = routes.filter(r => r.path.startsWith('/blog/'));
+
+// Generate blog index component with actual blog posts data
+const generateBlogIndex = (blogPosts) => {
+    return `<template>
+  <div class="doc-content">
+    <AppHeader :site-title="'My Blog'" />
+    <main class="container">
+      <article class="markdown-content">
+        <h1>Blog Posts</h1>
+        <p>Welcome to my blog! Here are my latest posts:</p>
+
+        <div class="blog-posts">
+          <div v-for="post in blogPosts" :key="post.path" class="blog-post-item">
+            <h2>
+              <router-link :to="post.path" class="post-link">
+                {{ post.metadata.title }}
+              </router-link>
+            </h2>
+            <div class="post-meta">
+              <span class="post-date">{{ post.metadata.date }}</span>
+              <span v-if="post.metadata.tags" class="post-tags">
+                | Tags: {{ post.metadata.tags.join(', ') }}
+              </span>
+            </div>
+            <p v-if="post.metadata.excerpt" class="post-excerpt">
+              {{ post.metadata.excerpt }}
+            </p>
+          </div>
+        </div>
+      </article>
+    </main>
+    <AppFooter :author-name="'Developer'" />
+  </div>
+</template>
+
+<script setup>
+import { computed } from 'vue'
+import AppHeader from '../AppHeader.vue'
+import AppFooter from '../AppFooter.vue'
+
+const blogPostsData = ${JSON.stringify(blogPosts)}
+const blogPosts = computed(() => blogPostsData)
+</script>
+
+<style scoped>
+.blog-posts {
+  margin-top: 2rem;
+}
+
+.blog-post-item {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.blog-post-item:last-child {
+  border-bottom: none;
+}
+
+.post-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-link:hover {
+  color: #007acc;
+}
+
+.post-meta {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+.post-excerpt {
+  color: #444;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+</style>`
+}
+
+// Write blog index component
+const blogIndexPath = path.join(OUTPUT_HTML_DIR, 'BlogIndex.vue');
+fs.writeFileSync(blogIndexPath, generateBlogIndex(blogPosts));
+console.log("Successfully generated blog index at ", blogIndexPath);
+
+const routeCodes = `//Generated by build-docs.js
+${routes.map(r => `import ${r.componentName} from './components/generated${r.path}.vue'` ).join('\n')}
+import BlogIndex from './components/generated/BlogIndex.vue'
+
+export const routes = [
+{
+    path: '/',
+    component: ${routes.find(r => r.componentName === 'Home')?.componentName || 'Home'},
+},
+{
+    path: '/blog',
+    component: BlogIndex,
+},
+${routes.map(r => `{
+    path: '${r.path.toLowerCase()}',
+    component: ${r.componentName},
+}`).join(',\n')}
+]`;
+
+fs.writeFileSync(OUTPUT_ROUTE_JS, routeCodes);
+
+console.log('Generated successfully route scripting ', OUTPUT_ROUTE_JS);
