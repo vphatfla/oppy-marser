@@ -13,12 +13,13 @@ Technology stack for the static blog application frontend, designed for optimal 
 
 ### Content Format
 - **Markdown** - Content authored in Markdown format with frontmatter metadata
-- **markdown-it** - Robust markdown to HTML conversion with plugin ecosystem for syntax highlighting and anchor generation
+- **markdown-it** - Robust markdown to HTML conversion with built-in highlight.js integration for syntax highlighting
 - **gray-matter** - Professional frontmatter parsing supporting YAML, TOML, and JSON metadata formats
+- **highlight.js** - Standalone syntax highlighting library integrated with markdown-it
 
 ### Styling
 - **SASS** - CSS preprocessor for enhanced styling capabilities with variables, mixins, and nested rules
-- **Bootstrap** - Responsive CSS framework providing utility classes and components for consistent design system
+- **Custom CSS Architecture** - Modular SASS organization with abstracts, base, layout, and component styles (Bootstrap not currently implemented)
 
 ### Programming Languages
 - **TypeScript/JavaScript** - Primary languages for application logic, component development, and build automation

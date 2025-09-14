@@ -29,25 +29,20 @@ The application follows a standard three-section layout:
 ### Header Design
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ [Site Title Placeholder]              [Home] [Blog] [Work] [Contact] │
+│ vphatfla                              [Home] [Blog] [Work] [Contact] │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 **Components:**
-- Left: Site title placeholder for branding
+- Left: Site title "vphatfla" (currently hardcoded)
 - Right: Navigation links (Home, Blog, Work, Contact)
-- Links navigate to pre-generated static HTML pages
+- Links navigate to pre-generated static HTML pages via Vue Router
 
 ### Footer Design
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                 Copyright © 2024 [Name Placeholder]. All rights reserved.                 │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-**Components:**
-- Centered copyright text with dynamic year
-- Name placeholder for personalization
+**Current Implementation:**
+- Footer component exists (AppFooter.vue) but specific content not documented
+- Integrated into main app layout
+- Consistent across all pages
 
 ### Content Area
 - Pre-rendered static HTML content for optimal performance
@@ -162,17 +157,22 @@ All page content is authored in Markdown format and stored in the `docs/` direct
 
 ```
 docs/
-├── home.md              # Homepage content
-├── contact.md           # Contact page content  
-├── blog/               # Blog posts directory
-│   └── *.md           # Individual blog posts
-└── work/              # Work portfolio directory  
-    └── *.md           # Individual work items
+├── Home.md              # Homepage content
+├── Contact.md           # Contact page content
+├── Work.md              # Work page content
+└── blog/                # Blog posts directory
+    └── YouHaveTime.md   # Individual blog posts
 ```
 
 **Build Artifacts:**
 ```
-src/components/generated/    # Auto-generated Vue components
+src/pages/generated/         # Auto-generated Vue components
+├── Contact.vue
+├── Home.vue
+├── Work.vue
+├── BlogIndex.vue            # Auto-generated blog index page
+└── blog/
+    └── YouHaveTime.vue
 src/generated-routes.js      # Auto-generated route definitions
 ```
 
