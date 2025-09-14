@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "bootstrap": "^5.3.8",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
     "markdown-it": "^14.1.0",

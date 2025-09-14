@@ -1,7 +1,7 @@
 <template>
   <footer class="app-footer">
     <div class="footer-content">
-      Copyright © {{ currentYear }} {{ authorName || '[Name Placeholder]' }}. All rights reserved.
+      Copyright © {{ currentYear }} {{ authorName || 'Developer' }}. All rights reserved.
     </div>
   </footer>
 </template>
@@ -12,7 +12,7 @@ import { computed, defineProps } from 'vue'
 defineProps({
   authorName: {
     type: String,
-    default: ''
+    default: 'Developer'
   }
 })
 

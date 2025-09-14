@@ -2,7 +2,7 @@
   <header class="app-header">
     <div class="header-container">
       <div class="site-title">
-        {{ siteTitle || '[Site Title Placeholder]' }}
+        {{ siteTitle || 'My Blog' }}
       </div>
       <nav class="nav-links">
         <router-link to="/" class="nav-link">Home</router-link>
@@ -20,7 +20,7 @@ import { defineProps } from 'vue'
 defineProps({
   siteTitle: {
     type: String,
-    default: ''
+    default: 'My Blog'
   }
 })
 </script>
