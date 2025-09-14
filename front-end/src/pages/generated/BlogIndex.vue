@@ -31,7 +31,7 @@
 <script setup>
 import { computed } from 'vue'
 
-const blogPostsData = [{"path":"/blog/BuildingModernStaticSites","componentName":"BuildingModernStaticSites","metadata":{"title":"Building Modern Static Sites with Vue.js","date":"2024-09-13","tags":["vue","static-sites","web-development","performance"],"excerpt":"Explore how to build lightning-fast static sites using Vue.js and modern build tools","author":"Developer"}},{"path":"/blog/OptimizingWebPerformance","componentName":"OptimizingWebPerformance","metadata":{"title":"Optimizing Web Performance in 2024","date":"2024-09-10","tags":["performance","web-vitals","optimization","javascript"],"excerpt":"Essential techniques for achieving lightning-fast web performance and excellent Core Web Vitals scores","author":"Developer","featured":true}}]
+const blogPostsData = [{"path":"/blog/YouHaveTime","componentName":"YouHaveTime","metadata":{"title":"You Have Time","date":"2024-09-14","author":"vphatfla","featured":true}}]
 const blogPosts = computed(() => blogPostsData)
 </script>
 

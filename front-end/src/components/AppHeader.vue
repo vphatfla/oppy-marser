@@ -2,7 +2,7 @@
   <header class="app-header">
     <div class="header-container">
       <div class="site-title">
-        {{ siteTitle || 'My Blog' }}
+        vphatfla
       </div>
       <nav class="nav-links">
         <router-link to="/" class="nav-link">Home</router-link>
@@ -16,11 +16,4 @@
 
 <script setup>
 import { defineProps } from 'vue'
-
-defineProps({
-  siteTitle: {
-    type: String,
-    default: 'My Blog'
-  }
-})
 </script>

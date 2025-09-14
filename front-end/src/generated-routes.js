@@ -2,8 +2,7 @@
 import Contact from '@/pages/generated/Contact.vue'
 import Home from '@/pages/generated/Home.vue'
 import Work from '@/pages/generated/Work.vue'
-import BuildingModernStaticSites from '@/pages/generated/blog/BuildingModernStaticSites.vue'
-import OptimizingWebPerformance from '@/pages/generated/blog/OptimizingWebPerformance.vue'
+import YouHaveTime from '@/pages/generated/blog/YouHaveTime.vue'
 import BlogIndex from '@/pages/generated/BlogIndex.vue'
 
 export const routes = [
@@ -20,15 +19,15 @@ export const routes = [
     component: Contact,
 },
 {
+    path: '/home',
+    component: Home,
+},
+{
     path: '/work',
     component: Work,
 },
 {
-    path: '/blog/buildingmodernstaticsites',
-    component: BuildingModernStaticSites,
-},
-{
-    path: '/blog/optimizingwebperformance',
-    component: OptimizingWebPerformance,
+    path: '/blog/youhavetime',
+    component: YouHaveTime,
 }
 ]

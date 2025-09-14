@@ -31,6 +31,15 @@ const md = new MarkdownIt({
     }
 });
 
+var defaultRender = md.renderer.rules.link_open || function (tokens, idx, options, env, self) {
+  return self.renderToken(tokens, idx, options);
+};
+
+md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
+  tokens[idx].attrSet('target', '_blank');
+  return defaultRender(tokens, idx, options, env, self);
+};
+
 const generateVueComponent = (html, data) => {
     return `<template>
   <div class="doc-content">
