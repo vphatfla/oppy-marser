@@ -94,7 +94,7 @@ output "dns_configuration_instructions" {
       name  = "www.${var.domain_name}"
       value = aws_cloudfront_distribution.main.domain_name
       ttl   = 300
-    } : "Not configured"
+    } : { "ERROR": "Not configured" }
     certificate_validation = "Add the following DNS records to validate the SSL certificate"
   }
 }
