@@ -1,0 +1,164 @@
+name: Terraform Infrastructure Deployment
+
+on:
+    push:
+        branches: [main]
+        paths: ['terraform/**']
+    pull_request:
+        branches: [main]
+        paths: ['terraform/**']
+
+permissions:
+    id-token: write
+    contents: read
+    pull-requests: write
+    issues: write
+
+jobs:
+    terraform-check:
+        name: Terraform Validation
+        runs-on: ubuntu-latest
+
+        defaults:
+            run:
+                working-directory: ./terraform
+
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+              with:
+                  terraform_version: 1.9.0
+                  terraform_wrapper: false
+
+            - name: Config AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                  role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+                  aws-region: us-east-1
+
+            - name: Terraform Format Check
+              id: fmt
+              run: terraform fmt -check -recursive
+              continue-on-error: true
+
+            - name: Terraform Init
+              id: init
+              run: terraform init
+
+            - name: Terraform Validate
+              id: validate
+              run: terraform validate
+
+            - name: Terraform Plan
+              id: plan
+              run: terraform plan -no-color -out=tfplan
+              continue-on-error: true
+
+            - name: Save Plan Output
+              id: plan-output
+              if: steps.plan.outcome == 'success'
+              run: |
+                  {
+                      echo 'stdout<<EOF'
+                      terraform show -no-color tfplan
+                      echo 'EOF'
+                  } >> $GITHUB_OUTPUT
+
+            - name: Comment PR (if PR)
+              if: github.event_name == 'pull_request'
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      const output = `
+                      #### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
+                      #### Terraform Initialization ⚙️ \`${{ steps.init.outcome }}\`
+                      #### Terraform Validation 🤖 \`${{ steps.validate.outcome }}\`
+                      #### Terraform Plan 📖 \`${{ steps.plan.outcome }}\`
+
+                      <details><summary>Show Plan</summary>
+
+                      \`\`\`terraform
+                      ${{ steps.plan-output.outputs.stdout || 'Plan failed or no changes detected' }}
+                      \`\`\`
+
+                      </details>
+
+                      *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*
+                      `;
+
+                      await github.rest.issues.createComment({
+                          issue_number: context.issue.number,
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          body: output
+                      })
+
+    terraform-apply:
+        name: Terraform Apply
+        runs-on: ubuntu-latest
+        environment: production
+        needs: terraform-check
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.terraform-check.result == 'success'
+
+        defaults:
+            run:
+                working-directory: ./terraform
+
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+              with:
+                  terraform_version: 1.9.0
+                  terraform_wrapper: false
+
+            - name: Config AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                  role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+                  aws-region: us-east-1
+
+            - name: Terraform Init
+              run: terraform init
+
+            - name: Terraform Plan for Apply
+              run: terraform plan -out=tfplan
+
+            - name: Terraform Apply
+              run: terraform apply tfplan
+
+            - name: Get Terraform Outputs
+              id: outputs
+              run: |
+                  echo "website_url=$(terraform output -raw website_url)" >> $GITHUB_OUTPUT
+                  echo "cloudfront_domain=$(terraform output -raw cloudfront_domain_name)" >> $GITHUB_OUTPUT
+                  echo "s3_bucket=$(terraform output -raw s3_bucket_name)" >> $GITHUB_OUTPUT
+              continue-on-error: true
+
+            - name: Comment Deployment Success
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      const output = `
+                      ## 🚀 Terraform Deployment Successful!
+
+                      **Infrastructure deployed to production:**
+                      - **Website URL**: ${{ steps.outputs.outputs.website_url }}
+                      - **CloudFront Domain**: ${{ steps.outputs.outputs.cloudfront_domain }}
+                      - **S3 Bucket**: ${{ steps.outputs.outputs.s3_bucket }}
+
+                      *Deployed by: @${{ github.actor }} via commit ${{ github.sha }}*
+                      `;
+
+                      // Create commit comment on the latest commit
+                      await github.rest.repos.createCommitComment({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          commit_sha: context.sha,
+                          body: output
+                      })
