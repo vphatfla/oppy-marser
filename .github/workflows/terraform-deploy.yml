@@ -18,6 +18,7 @@ jobs:
     terraform-check:
         name: Terraform Validation
         runs-on: ubuntu-latest
+        environment: production
 
         defaults:
             run:
