@@ -85,6 +85,17 @@ resource "aws_acm_certificate" "main" {
   })
 }
 
+# Certificate validation - waits for DNS records to be added
+resource "aws_acm_certificate_validation" "main" {
+  certificate_arn = aws_acm_certificate.main.arn
+
+  # This will wait indefinitely until DNS validation records are added
+  # Terraform will show the required DNS records in outputs
+  timeouts {
+    create = "10m"  # Timeout after 10 minutes if validation doesn't complete
+  }
+}
+
 # ========================================
 # CLOUDFRONT ORIGIN ACCESS CONTROL (OAC)
 # ========================================
@@ -150,7 +161,7 @@ resource "aws_cloudfront_distribution" "main" {
 
   # SSL certificate configuration
   viewer_certificate {
-    acm_certificate_arn            = aws_acm_certificate.main.arn
+    acm_certificate_arn            = aws_acm_certificate_validation.main.certificate_arn
     ssl_support_method             = "sni-only"
     minimum_protocol_version       = "TLSv1.2_2021"
     cloudfront_default_certificate = false

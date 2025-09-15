@@ -57,7 +57,7 @@ output "cloudfront_invalidation_command" {
 
 output "acm_certificate_arn" {
   description = "ARN of the ACM certificate"
-  value       = aws_acm_certificate.main.arn
+  value       = aws_acm_certificate_validation.main.certificate_arn
 }
 
 output "acm_certificate_domain_validation_options" {
@@ -111,7 +111,7 @@ output "deployment_summary" {
     domain_name             = var.domain_name
     s3_bucket               = aws_s3_bucket.main.id
     cloudfront_distribution = aws_cloudfront_distribution.main.id
-    ssl_certificate         = aws_acm_certificate.main.arn
+    ssl_certificate         = aws_acm_certificate_validation.main.certificate_arn
     website_url             = "https://${var.domain_name}"
     estimated_monthly_cost  = "$1-5 USD for typical traffic"
   }
