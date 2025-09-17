@@ -68,35 +68,6 @@ jobs:
                       echo 'EOF'
                   } >> $GITHUB_OUTPUT
 
-            - name: Comment PR (if PR)
-              if: github.event_name == 'pull_request'
-              uses: actions/github-script@v7
-              with:
-                  script: |
-                      const output = `
-                      #### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
-                      #### Terraform Initialization ⚙️ \`${{ steps.init.outcome }}\`
-                      #### Terraform Validation 🤖 \`${{ steps.validate.outcome }}\`
-                      #### Terraform Plan 📖 \`${{ steps.plan.outcome }}\`
-
-                      <details><summary>Show Plan</summary>
-
-                      \`\`\`terraform
-                      ${{ steps.plan-output.outputs.stdout || 'Plan failed or no changes detected' }}
-                      \`\`\`
-
-                      </details>
-
-                      *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*
-                      `;
-
-                      await github.rest.issues.createComment({
-                          issue_number: context.issue.number,
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                          body: output
-                      })
-
     terraform-apply:
         name: Terraform Apply
         runs-on: ubuntu-latest
@@ -140,26 +111,3 @@ jobs:
                   echo "cloudfront_domain=$(terraform output -raw cloudfront_domain_name)" >> $GITHUB_OUTPUT
                   echo "s3_bucket=$(terraform output -raw s3_bucket_name)" >> $GITHUB_OUTPUT
               continue-on-error: true
-
-            - name: Comment Deployment Success
-              uses: actions/github-script@v7
-              with:
-                  script: |
-                      const output = `
-                      ## 🚀 Terraform Deployment Successful!
-
-                      **Infrastructure deployed to production:**
-                      - **Website URL**: ${{ steps.outputs.outputs.website_url }}
-                      - **CloudFront Domain**: ${{ steps.outputs.outputs.cloudfront_domain }}
-                      - **S3 Bucket**: ${{ steps.outputs.outputs.s3_bucket }}
-
-                      *Deployed by: @${{ github.actor }} via commit ${{ github.sha }}*
-                      `;
-
-                      // Create commit comment on the latest commit
-                      await github.rest.repos.createCommitComment({
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                          commit_sha: context.sha,
-                          body: output
-                      })
