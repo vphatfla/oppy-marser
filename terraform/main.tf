@@ -128,7 +128,7 @@ resource "aws_cloudfront_distribution" "main" {
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = var.default_root_object
-  # aliases             = var.enable_www_subdomain ? [var.domain_name, "www.${var.domain_name}"] : [var.domain_name]
+  aliases             = var.enable_www_subdomain ? [var.domain_name, "www.${var.domain_name}"] : [var.domain_name]
   price_class         = var.cloudfront_price_class
   http_version        = "http2and3"
 
@@ -160,10 +160,10 @@ resource "aws_cloudfront_distribution" "main" {
 
   # SSL certificate configuration
   viewer_certificate {
-    # acm_certificate_arn            = aws_acm_certificate_validation.main.certificate_arn
+    acm_certificate_arn            = aws_acm_certificate_validation.main.certificate_arn
     ssl_support_method             = "sni-only"
     minimum_protocol_version       = "TLSv1.2_2021"
-    cloudfront_default_certificate = true
+    cloudfront_default_certificate = false
   }
 
   # Geographic restrictions (none by default)
