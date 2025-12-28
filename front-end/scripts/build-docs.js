@@ -13,7 +13,7 @@ const OUTPUT_ROUTE_JS = '../src/generated-routes.js';
 const md = new MarkdownIt({
     html: true,
     xhtmlOut: true,
-    breaks: false,
+    breaks: true,
     langPrefix: 'language-',
     linkify: true,
     typographer: true,
