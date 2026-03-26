@@ -1,3 +1,7 @@
-# My New York
+# New York City
 
-## Forming the words in my head
+## Struggles and Loves
+
+
+
+
