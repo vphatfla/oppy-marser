@@ -31,7 +31,7 @@
 <script setup>
 import { computed } from 'vue'
 
-const blogPostsData = [{"path":"/blog/YouHaveTime","componentName":"YouHaveTime","metadata":{"title":"You Have Time","date":"2024-09-14","author":"vphatfla","featured":true}}]
+const blogPostsData = [{"path":"/blog/DatabaseConceptsWithTopDownApproach","componentName":"DatabaseConceptsWithTopDownApproach","metadata":{"title":"Database Concepts With A Top Down Appraoch","date":"2026-08-23","author":"vphatfla","featured":true}},{"path":"/blog/MakeTheExtraRun","componentName":"MakeTheExtraRun","metadata":{"title":"Make an Extra Run","date":"2025-12-28","author":"vphatfla","featured":true}},{"path":"/blog/YouHaveTime","componentName":"YouHaveTime","metadata":{"title":"You Have Time","date":"2024-09-14","author":"vphatfla","featured":true}}]
 const blogPosts = computed(() => blogPostsData)
 </script>
 
@@ -43,7 +43,7 @@ const blogPosts = computed(() => blogPostsData)
 .blog-post-item {
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .blog-post-item:last-child {
@@ -56,17 +56,17 @@ const blogPosts = computed(() => blogPostsData)
 }
 
 .post-link:hover {
-  color: #007acc;
+  color: var(--color-primary);
 }
 
 .post-meta {
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
   margin: 0.5rem 0;
 }
 
 .post-excerpt {
-  color: #444;
+  color: var(--color-text-secondary);
   font-style: italic;
   margin-top: 0.5rem;
 }

@@ -155,7 +155,7 @@ const blogPosts = computed(() => blogPostsData)
 .blog-post-item {
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .blog-post-item:last-child {
@@ -168,17 +168,17 @@ const blogPosts = computed(() => blogPostsData)
 }
 
 .post-link:hover {
-  color: #007acc;
+  color: var(--color-primary);
 }
 
 .post-meta {
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
   margin: 0.5rem 0;
 }
 
 .post-excerpt {
-  color: #444;
+  color: var(--color-text-secondary);
   font-style: italic;
   margin-top: 0.5rem;
 }

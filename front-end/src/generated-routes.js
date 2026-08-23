@@ -2,6 +2,8 @@
 import Contact from '@/pages/generated/Contact.vue'
 import Home from '@/pages/generated/Home.vue'
 import Work from '@/pages/generated/Work.vue'
+import DatabaseConceptsWithTopDownApproach from '@/pages/generated/blog/DatabaseConceptsWithTopDownApproach.vue'
+import MakeTheExtraRun from '@/pages/generated/blog/MakeTheExtraRun.vue'
 import YouHaveTime from '@/pages/generated/blog/YouHaveTime.vue'
 import BlogIndex from '@/pages/generated/BlogIndex.vue'
 
@@ -25,6 +27,14 @@ export const routes = [
 {
     path: '/work',
     component: Work,
+},
+{
+    path: '/blog/databaseconceptswithtopdownapproach',
+    component: DatabaseConceptsWithTopDownApproach,
+},
+{
+    path: '/blog/maketheextrarun',
+    component: MakeTheExtraRun,
 },
 {
     path: '/blog/youhavetime',

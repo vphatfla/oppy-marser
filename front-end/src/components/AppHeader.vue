@@ -4,16 +4,19 @@
       <div class="site-title">
         vphatfla
       </div>
-      <nav class="nav-links">
-        <router-link to="/" class="nav-link">Home</router-link>
-        <router-link to="/blog" class="nav-link">Blog</router-link>
-        <router-link to="/work" class="nav-link">Work</router-link>
-        <router-link to="/contact" class="nav-link">Contact</router-link>
-      </nav>
+      <div class="nav-group">
+        <nav class="nav-links">
+          <router-link to="/" class="nav-link">Home</router-link>
+          <router-link to="/blog" class="nav-link">Blog</router-link>
+          <router-link to="/work" class="nav-link">Work</router-link>
+          <router-link to="/contact" class="nav-link">Contact</router-link>
+        </nav>
+        <ThemeToggle />
+      </div>
     </div>
   </header>
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 </script>

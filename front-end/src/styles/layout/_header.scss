@@ -19,6 +19,12 @@
     color: var(--color-text);
   }
 
+  .nav-group {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
   .nav-links {
     display: flex;
     gap: $spacing-md;
