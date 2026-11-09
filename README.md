@@ -46,15 +46,15 @@ instead.
 
 ## Deployment
 
-The site is **self-hosted** on a Docker/nginx server, with DNS on Cloudflare.
-It is served under the path prefix `/app/blog/`.
+A **Docker/nginx host** serves the site, with DNS on Cloudflare, under the
+path prefix `/app/blog/`.
 
-Deploying is a script that runs **on the server**, which builds from this repo
-there. GitHub Actions does not deploy: `.github/workflows/ci.yml` only checks
+Deploying is a script that runs **where the site is hosted**, and it builds
+from this repo there. GitHub Actions does not deploy: `.github/workflows/ci.yml` only checks
 that `build-docs.js` and `npm run build` succeed on every push and pull
 request. Merging to `main` does not put anything live by itself.
 
 Note that this repo does not itself set the `/app/blog/` base — `vite.config.js`
 sets no Vite `base` and `src/main.js` calls `createWebHistory()` with no base
 argument, so a local `npm run build` emits root-relative asset URLs. The
-server's deploy script supplies the base.
+deploy script supplies the base.
