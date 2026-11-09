@@ -1,0 +1,51 @@
+name: CI
+
+# Build verification only — this workflow does not deploy. The site is built
+# and published on the self-hosted server by its own deploy script, so there
+# are no cloud credentials anywhere in this repo.
+#
+# Not path-filtered on purpose: build-docs.js generates the route table and
+# every content page from front-end/docs/**, so a markdown-only change still
+# changes the build output and still needs verifying.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Frontend — generate docs and build
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./front-end
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+          cache-dependency-path: front-end/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Must run with scripts/ as the working directory — the script resolves
+      # paths relative to itself (e.g. ../docs). It regenerates
+      # src/pages/generated/ and src/generated-routes.js, which are what the
+      # build below compiles, so it has to come first.
+      - name: Build HTML files from markdown
+        run: cd scripts && node build-docs.js
+
+      - name: Build
+        run: npm run build
