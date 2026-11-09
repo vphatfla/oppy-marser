@@ -4,12 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository overview
 
-This repo hosts a personal static blog/portfolio site (`vphatfla`), plus the AWS infrastructure that serves it. It has two independent parts:
+This repo hosts a personal static blog/portfolio site (`vphatfla`). All of it lives in one place:
 
 - `front-end/` — the Vue 3 + Vite site (all application code lives here)
-- `terraform/` — AWS infra-as-code (S3 + CloudFront + ACM) that hosts the built site
 
-`claude-code/*.md` contains design docs (tech specs, implementation notes, deployment guide) written during the original build-out — useful background, but not always in sync with the current code (e.g. it still frames the deploy script suggestions as "recommended," not yet wired in).
+There is no infrastructure code here any more. The site is served by a self-hosted Docker/nginx server, which also builds and publishes it — see § Deployment.
+
+`claude-code/*.md` contains design docs (tech specs, implementation notes) written during the original build-out — useful background, but not always in sync with the current code. Two of them still describe the output as "S3 + CloudFront compatible"; that is historical. The point it was making — the build is pure static files with no runtime markdown parsing — is still true.
 
 ## Commands
 
@@ -27,11 +28,9 @@ npm run preview   # preview the production build locally
 cd front-end/scripts && node build-docs.js
 ```
 
-This must be run with `scripts/` as the working directory (it uses paths relative to itself, e.g. `../docs`). It fully deletes and regenerates `front-end/src/pages/generated/` and `front-end/src/generated-routes.js` from `front-end/docs/**/*.md`, so any change to a markdown file (or to the generator script itself, e.g. its inline `<style>` for `BlogIndex.vue`) is invisible until this is re-run. The CI deploy workflow (`.github/workflows/frontend-deploy.yml`) runs it before `npm run build`.
+This must be run with `scripts/` as the working directory (it uses paths relative to itself, e.g. `../docs`). It fully deletes and regenerates `front-end/src/pages/generated/` and `front-end/src/generated-routes.js` from `front-end/docs/**/*.md`, so any change to a markdown file (or to the generator script itself, e.g. its inline `<style>` for `BlogIndex.vue`) is invisible until this is re-run. CI (`.github/workflows/ci.yml`) runs it before `npm run build`, so a build that depends on a missing regeneration fails there rather than silently shipping stale pages.
 
 There is no test suite, linter, or type checker configured for `front-end/`.
-
-Terraform commands run from `terraform/`: `terraform init`, `terraform plan`, `terraform apply` (also automated for `main` via `.github/workflows/terraform-deploy.yml`, plan-only on PRs).
 
 ## Architecture
 
@@ -54,4 +53,24 @@ Theming: `[data-theme="dark"]` on `<html>` overrides the same custom-property na
 
 ### Deployment
 
-`front-end/` builds to static files (`dist/`) deployed to a private S3 bucket fronted by CloudFront (OAC, ACM cert, HTTPS-only) — see `claude-code/04-aws-deployment.md` for the full rationale. `terraform/` provisions that infra; `.github/workflows/frontend-deploy.yml` builds and syncs `dist/` to S3 on push to `main` (or manual dispatch) when `front-end/**` changes; `.github/workflows/terraform-deploy.yml` plans on PRs and applies on push to `main` when `terraform/**` changes.
+The site is **self-hosted**: a Docker/nginx server serves it at
+`https://vphatfla.me/app/blog/`, with DNS on Cloudflare. Nothing in AWS serves
+this site any more, and this repo holds no infrastructure code and no cloud
+credentials.
+
+**GitHub does not deploy.** `.github/workflows/ci.yml` only verifies that
+`build-docs.js` + `npm run build` succeed, on every push and pull request.
+Publishing is a deploy script that runs **on the server**, which builds from
+this repo there.
+
+Two consequences worth knowing:
+
+- **The path prefix is `/app/blog/`, and this repo does not set it.**
+  `front-end/vite.config.js` sets no Vite `base`, and `src/main.js` calls
+  `createWebHistory()` with no base argument, so a plain `npm run build` here
+  emits root-relative asset URLs (`/assets/…`) while the live site serves
+  `/app/blog/assets/…`. The server's deploy script supplies the base. That
+  means CI verifies *a* build, not byte-for-byte the deployed one — worth
+  reconciling if it ever bites.
+- Because the server builds and publishes, a merge to `main` does not put
+  anything live by itself.
