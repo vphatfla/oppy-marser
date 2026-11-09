@@ -31,7 +31,7 @@
 <script setup>
 import { computed } from 'vue'
 
-const blogPostsData = [{"path":"/blog/DatabaseConceptsWithTopDownApproach","componentName":"DatabaseConceptsWithTopDownApproach","metadata":{"title":"Database Concepts With A Top Down Appraoch","date":"2026-08-23","author":"vphatfla","featured":true}},{"path":"/blog/MakeTheExtraRun","componentName":"MakeTheExtraRun","metadata":{"title":"Make an Extra Run","date":"2025-12-28","author":"vphatfla","featured":true}},{"path":"/blog/YouHaveTime","componentName":"YouHaveTime","metadata":{"title":"You Have Time","date":"2024-09-14","author":"vphatfla","featured":true}}]
+const blogPostsData = [{"path":"/blog/DatabaseConceptsWithTopDownApproach","componentName":"DatabaseConceptsWithTopDownApproach","metadata":{"title":"Database Concepts With A Top Down Approach","date":"2026-08-23","author":"vphatfla","featured":true}},{"path":"/blog/MakeTheExtraRun","componentName":"MakeTheExtraRun","metadata":{"title":"Make an Extra Run","date":"2025-12-28","author":"vphatfla","featured":true}},{"path":"/blog/YouHaveTime","componentName":"YouHaveTime","metadata":{"title":"You Have Time","date":"2024-09-14","author":"vphatfla","featured":true}}]
 const blogPosts = computed(() => blogPostsData)
 </script>
 

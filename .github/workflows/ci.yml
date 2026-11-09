@@ -47,5 +47,18 @@ jobs:
       - name: Build HTML files from markdown
         run: cd scripts && node build-docs.js
 
+      # The generated files are committed, and nothing regenerated them for a
+      # while: a frontmatter typo fix landed in markdown while the generated
+      # output kept the old spelling. Building after regenerating hides that
+      # — CI would pass on stale committed files forever. Fail instead, and
+      # name the fix.
+      - name: Check generated files are up to date
+        run: |
+          if ! git diff --quiet -- src/pages/generated src/generated-routes.js; then
+            echo "::error::Generated files are out of date. Run 'cd front-end/scripts && node build-docs.js' and commit the result."
+            git diff --stat -- src/pages/generated src/generated-routes.js
+            exit 1
+          fi
+
       - name: Build
         run: npm run build
