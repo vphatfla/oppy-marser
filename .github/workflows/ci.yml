@@ -1,8 +1,8 @@
 name: CI
 
 # Build verification only — this workflow does not deploy. The site is built
-# and published on the self-hosted server by its own deploy script, so there
-# are no cloud credentials anywhere in this repo.
+# and published by a deploy script that runs where the site is hosted, so
+# there are no deployment credentials anywhere in this repo.
 #
 # Not path-filtered on purpose: build-docs.js generates the route table and
 # every content page from front-end/docs/**, so a markdown-only change still

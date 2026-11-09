@@ -8,7 +8,7 @@ This repo hosts a personal static blog/portfolio site (`vphatfla`). All of it li
 
 - `front-end/` — the Vue 3 + Vite site (all application code lives here)
 
-There is no infrastructure code here any more. The site is served by a self-hosted Docker/nginx server, which also builds and publishes it — see § Deployment.
+There is no infrastructure code here any more. The site is served by a Docker/nginx host, which also builds and publishes it — see § Deployment.
 
 `claude-code/*.md` contains design docs (tech specs, implementation notes) written during the original build-out — useful background, but not always in sync with the current code. Two of them still describe the output as "S3 + CloudFront compatible"; that is historical. The point it was making — the build is pure static files with no runtime markdown parsing — is still true.
 
@@ -53,15 +53,14 @@ Theming: `[data-theme="dark"]` on `<html>` overrides the same custom-property na
 
 ### Deployment
 
-The site is **self-hosted**: a Docker/nginx server serves it at
-`https://vphatfla.me/app/blog/`, with DNS on Cloudflare. Nothing in AWS serves
-this site any more, and this repo holds no infrastructure code and no cloud
-credentials.
+A **Docker/nginx host** serves the site at `https://vphatfla.me/app/blog/`,
+with DNS on Cloudflare. This repo holds no infrastructure code and no
+deployment credentials.
 
 **GitHub does not deploy.** `.github/workflows/ci.yml` only verifies that
 `build-docs.js` + `npm run build` succeed, on every push and pull request.
-Publishing is a deploy script that runs **on the server**, which builds from
-this repo there.
+Publishing is a deploy script that runs **where the site is hosted**, and it
+builds from this repo there.
 
 Two consequences worth knowing:
 
